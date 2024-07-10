@@ -1,4 +1,4 @@
-from .database import users_collection
+from .database import users_collection, tasks_collection
 from .models import User
 
 # auth related
@@ -23,12 +23,20 @@ def display_user_details(user: User):
 def list_tasks(cursor) -> list:
     return [get_task(task) for task in cursor]
 
-def get_task(task):
-    return {
+def get_task(task) -> dict:
+    return { # TODO - replace optional vals with get()
         'task_id': str(task['_id']),
         'title': task['title'],
         'description': task['description'],
         'priority': task['priority'],
         'category': task['category'],
         'completed': task['completed']
+    }
+
+def insert_task(username: str, task: dict):
+    task['completed'] = False
+    task['owner'] = username
+    tasks_collection.insert_one(task)
+    return {
+        'details': 'Task added!'
     }
