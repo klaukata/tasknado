@@ -2,7 +2,7 @@
 
 Welcome to Tasknado! A NoSQL, RESTfull API app that allows users to register, log in, and manage their todo tasks.
 
-![Screenshot of an app](.\imgs\screenshot.png)
+![Screenshot of an app](\imgs\screenshot.png)
 
 ### Features
 
