@@ -1,5 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
-from bson import ObjectId
+from fastapi import APIRouter, Depends
 from ..database import tasks_collection
 from ..token import o2auth_scheme, decode_token
 from ..schemas import TaskCreate, TaskEdit
