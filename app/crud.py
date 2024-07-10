@@ -61,14 +61,21 @@ def validate_user_and_task(username: str, task_id: str):
         raise not_owner_exception
     return True
 
-def update_task():
-    pass
+def update_task(username: str, task_id: str, task: dict):
+    if validate_user_and_task(username, task_id):
+        tasks_collection.find_one_and_update({'_id': ObjectId(task_id)}, {'$set': task})
+        return {
+            'details': 'Task updated!'
+        }
+    return {
+        'details': 'Task not updated'
+    }
 
 def del_task(username: str, task_id: str):
     if validate_user_and_task(username, task_id):
         tasks_collection.find_one_and_delete({'_id': ObjectId(task_id)})
         return {
-            'detail': 'Task removed'
+            'detail': 'Task removed!'
         }
     else:
         return {
