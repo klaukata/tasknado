@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
+from bson import ObjectId
 from ..database import tasks_collection
 from ..token import o2auth_scheme, decode_token
 from ..schemas import TaskCreate, TaskEdit
@@ -26,5 +27,24 @@ def create_task(task: TaskCreate, token: str = Depends(o2auth_scheme)):
     }
 
 @router.put('/edit')
-def edit_task():
-    pass
+def edit_task(task_id: str, task: TaskEdit, token: str = Depends(o2auth_scheme)):
+    owner_username = decode_token(token)
+    try:
+        task_doc = tasks_collection.find_one({'_id': ObjectId(task_id)})
+    except:
+        raise HTTPException(
+            status_code=404,
+            detail="Task not found. Enter a correct task_id"
+        )
+    if task_doc['owner'] != owner_username:
+        raise HTTPException(
+            status_code=403,
+            detail='You are trying to edit a task that is not yours. Not cool.'
+        )
+    tasks_collection.find_one_and_update({'_id': ObjectId(task_id)}, {'$set': task.model_dump()})
+    return {
+        'details': 'Task updated! c:'
+}
+    
+
+# TODO - del
