@@ -18,3 +18,17 @@ def display_user_details(user: User):
         'Your username': user.username,
         'Your email': user.email
     }
+
+# task related
+def list_tasks(cursor) -> list:
+    return [get_task(task) for task in cursor]
+
+def get_task(task):
+    return {
+        'task_id': str(task['_id']),
+        'title': task['title'],
+        'description': task['description'],
+        'priority': task['priority'],
+        'category': task['category'],
+        'completed': task['completed']
+    }
