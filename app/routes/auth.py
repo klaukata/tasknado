@@ -15,9 +15,11 @@ def login_for_token(form: OAuth2PasswordRequestForm = Depends()) -> dict:
             status_code=400,
             detail='Entered wrong password and/or username'
         )
-    token_dict = create_token({'sub': user_doc.username})
-    return token_dict
-    
+    token = create_token({'sub': user_doc.username})
+    return {
+        'access_token': token,
+        'token_type': 'bearer'
+    }
 
 @router.post('/register')
 def register(user_details: User):
