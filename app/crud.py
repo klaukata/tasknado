@@ -11,3 +11,10 @@ def create_user(user_details: User):
     return {
         'details': 'User created!'
     }
+
+# user related
+def display_user_details(user: User):
+    return {
+        'Your username': user.username,
+        'Your email': user.email
+    }
