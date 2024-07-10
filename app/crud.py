@@ -52,18 +52,25 @@ def insert_task(username: str, task: dict):
         'details': 'Task added!'
     }
 
-    
-def update_task():
-    pass
-
-def del_task(username: str, task_id: str):
+def validate_user_and_task(username: str, task_id: str):
     task_doc = tasks_collection.find_one({'_id': ObjectId(task_id)})
     if task_doc is None:
         raise no_task_exception
     task_username = task_doc['owner']
     if task_username != username:
         raise not_owner_exception
-    tasks_collection.find_one_and_delete({'_id': ObjectId(task_id)})
-    return {
-        'detail': 'Task removed'
-    }
+    return True
+
+def update_task():
+    pass
+
+def del_task(username: str, task_id: str):
+    if validate_user_and_task(username, task_id):
+        tasks_collection.find_one_and_delete({'_id': ObjectId(task_id)})
+        return {
+            'detail': 'Task removed'
+        }
+    else:
+        return {
+            'detail': 'Task not removed'
+        }
