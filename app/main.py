@@ -5,12 +5,12 @@ from .routes.tasks import router as task_router
 
 app = FastAPI()
 
-app.include_router(task_router, prefix='/task')
-app.include_router(users_router, prefix='/users')
-app.include_router(auth_router, prefix='/auth')
+app.include_router(task_router, prefix='/task', tags=['Tasks'])
+app.include_router(users_router, prefix='/users', tags=['Read User'])
+app.include_router(auth_router, prefix='/auth', tags=['Authorization'])
 
 
-@app.get('/')
+@app.get('/', tags=['Welcome Message'])
 def read_root():
     return {
         'msg': 'hi from the root! c:'
