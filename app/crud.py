@@ -24,13 +24,13 @@ def list_tasks(cursor) -> list:
     return [get_task(task) for task in cursor]
 
 def get_task(task) -> dict:
-    return { # TODO - replace optional vals with get()
+    return {
         'task_id': str(task['_id']),
         'title': task['title'],
-        'description': task['description'],
+        'description': task.get('description'),
         'priority': task['priority'],
-        'category': task['category'],
-        'completed': task['completed']
+        'category': task.get('category'),
+        'completed': task.get('completed')
     }
 
 def insert_task(username: str, task: dict):
