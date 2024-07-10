@@ -1,5 +1,16 @@
+from fastapi import HTTPException
+from bson import ObjectId
 from .database import users_collection, tasks_collection
 from .models import User
+
+no_task_exception = HTTPException(
+    status_code=404,
+    detail='Task not found. Enter a correct task_id'
+)
+not_owner_exception = HTTPException(
+    status_code=403,
+    detail="You're trying to mess with a task that is not yours. Not cool."
+)
 
 # auth related
 def get_user(username: str):
@@ -39,4 +50,21 @@ def insert_task(username: str, task: dict):
     tasks_collection.insert_one(task)
     return {
         'details': 'Task added!'
+    }
+
+def update_task():
+    pass
+
+def del_task(username: str, task_id: str):
+    try:
+        task_doc = tasks_collection.find_one({'_id': ObjectId(task_id)})
+    except:
+        raise no_task_exception
+    task_username = task_doc['owner']
+    if task_username != username:
+        raise not_owner_exception
+    # TODO - put lines above in it's seperate func
+    tasks_collection.find_one_and_delete({'_id': ObjectId(task_id)})
+    return {
+        'detail': 'Task removed'
     }

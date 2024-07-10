@@ -3,7 +3,7 @@ from bson import ObjectId
 from ..database import tasks_collection
 from ..token import o2auth_scheme, decode_token
 from ..schemas import TaskCreate, TaskEdit
-from ..crud import list_tasks, insert_task
+from ..crud import list_tasks, insert_task, del_task
 
 router = APIRouter()
 
@@ -21,7 +21,7 @@ def create_task(task: TaskCreate, token: str = Depends(o2auth_scheme)):
     return insert_task(owner_username, task_dict)
 
 @router.put('/edit')
-def edit_task(task_id: str, task: TaskEdit, token: str = Depends(o2auth_scheme)):
+def edit_task(task_id: str, task: TaskEdit, token: str = Depends(o2auth_scheme)): # TODO - move to crud
     owner_username = decode_token(token)
     try:
         task_doc = tasks_collection.find_one({'_id': ObjectId(task_id)})
@@ -40,5 +40,7 @@ def edit_task(task_id: str, task: TaskEdit, token: str = Depends(o2auth_scheme))
         'details': 'Task updated! c:'
 }
     
-
-# TODO - del
+@router.delete('/delete')
+def remove_task(task_id, token: str = Depends(o2auth_scheme)):
+    owner_username = decode_token(token)
+    return del_task(owner_username, task_id)
