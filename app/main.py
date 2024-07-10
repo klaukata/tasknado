@@ -5,9 +5,9 @@ from .routes.tasks import router as task_router
 
 app = FastAPI()
 
+app.include_router(task_router, prefix='/task')
 app.include_router(users_router, prefix='/users')
 app.include_router(auth_router, prefix='/auth')
-app.include_router(task_router, prefix='/task')
 
 
 @app.get('/')
