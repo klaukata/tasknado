@@ -1,3 +1,13 @@
+# # enable absolute paths in fastapi
+# import sys
+# import os
+
+# dir_name_rel = os.path.dirname(__file__) # relative path to main.py
+# dir_name_abs = os.path.abspath(dir_name_rel) # relative -> absolute
+
+# sys.path.append(dir_name_abs) # adds project root to py path
+
+# main
 from fastapi import FastAPI
 from .routes.auth import router as auth_router
 from .routes.users import router as users_router

@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from bson import ObjectId
 
 # auth router related models
 class User(BaseModel):
