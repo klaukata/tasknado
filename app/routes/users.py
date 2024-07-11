@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from ..token import o2auth_scheme, decode_token
+from ..auth import o2auth_scheme, decode_token
 from ..crud import get_user, display_user_details
 
 router = APIRouter()

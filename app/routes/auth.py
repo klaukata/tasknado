@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from ..database import users_collection
 from ..crud import create_user, get_user
 from ..models import User
-from ..token import create_token
+from ..auth import create_token
 
 router = APIRouter()
 

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from ..database import tasks_collection
-from ..token import o2auth_scheme, decode_token
+from ..auth import o2auth_scheme, decode_token
 from ..schemas import TaskCreate, TaskEdit
 from ..crud import list_tasks, insert_task, update_task, del_task
 
